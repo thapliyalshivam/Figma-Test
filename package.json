@@ -1,0 +1,14 @@
+{
+    "name": "figma-random-component-children",
+    "version": "1.0.0",
+    "description": "A Figma plugin that creates random variations of selected components",
+    "main": "code.js",
+    "scripts": {
+      "build": "tsc",
+      "watch": "tsc --watch"
+    },
+    "devDependencies": {
+      "@figma/plugin-typings": "^1.75.0",
+      "typescript": "^4.9.0"
+    }
+  }

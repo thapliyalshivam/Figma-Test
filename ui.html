@@ -1,0 +1,131 @@
+
+// ui.html (Plugin UI)
+var uiHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #0075ea;
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0;
+    }
+    
+    .description {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.4;
+      margin: 0;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .button {
+      flex: 1;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .button-primary {
+      background: #007AFF;
+      color: white;
+    }
+    
+    .button-primary:hover {
+      background: #0056CC;
+    }
+    
+    .button-secondary {
+      background: #e5e5e5;
+      color: #333;
+    }
+    
+    .button-secondary:hover {
+      background: #d4d4d4;
+    }
+    
+    .features {
+      font-size: 11px;
+      color: #888;
+      background: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+    }
+    
+    .features ul {
+      margin: 0;
+      padding-left: 16px;
+    }
+    
+    .features li {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Random Component Children</h1>
+    
+    <p class="description">
+      Select a component or frame, then click "Generate" to create 5 randomized copies with varied properties.
+    </p>
+    
+    <div class="features">
+      <strong>What gets randomized:</strong>
+      <ul>
+        <li>Position and rotation</li>
+        <li>Opacity and scale</li>
+        <li>Fill colors</li>
+        <li>Component properties</li>
+        <li>Text size (for text nodes)</li>
+      </ul>
+    </div>
+    
+    <div class="button-group">
+      <button class="button button-primary" id="generate">
+        Generate Random Children
+      </button>
+      <button class="button button-secondary" id="cancel">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('generate').onclick = function() {
+      parent.postMessage({ pluginMessage: { type: 'create-random-children' } }, '*');
+    };
+    
+    document.getElementById('cancel').onclick = function() {
+      parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*');
+    };
+  </script>
+</body>
+</html>
+`;
+
+// Replace the __html__ placeholder
+figma.showUI(uiHTML, { width: 300, height: 350 });
