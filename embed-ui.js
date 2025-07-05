@@ -1,5 +1,26 @@
-// code.js (Main plugin logic - UI loaded from dist/ui.html)
-figma.showUI(__html__, { width: 320, height: 400 });
+const fs = require('fs');
+const path = require('path');
+
+// Read the generated ui.html and ui.js from dist folder
+const uiHTML = fs.readFileSync(path.join(__dirname, 'dist', 'ui.html'), 'utf8');
+const uiJS = fs.readFileSync(path.join(__dirname, 'dist', 'ui.js'), 'utf8');
+
+// Escape backticks and dollar signs for template literal
+function escapeForTemplate(str) {
+  return str.replace(/`/g, '\\`').replace(/\${/g, '\\${');
+}
+
+// Replace the script src with inline script
+const inlinedHTML = uiHTML.replace(
+  /<script[^>]*src="ui\.js"[^>]*><\/script>/g,
+  `<script>${escapeForTemplate(uiJS)}</script>`
+);
+
+// Create the complete code.js content with the embedded React UI and all functionality
+const newCodeContent = `// code.js (Main plugin logic)
+const uiHTML = \`${escapeForTemplate(inlinedHTML)}\`;
+
+figma.showUI(uiHTML, { width: 320, height: 400 });
 
 // Function to get random value within range
 function randomInRange(min, max) {
@@ -154,4 +175,9 @@ figma.ui.onmessage = function(msg) {
   } else if (msg.type === 'cancel') {
     figma.closePlugin();
   }
-};
+};`;
+
+// Write the new code.js
+fs.writeFileSync(path.join(__dirname, 'code.js'), newCodeContent);
+
+console.log('✅ React UI embedded successfully into code.js');
